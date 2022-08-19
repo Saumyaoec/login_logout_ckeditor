@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% load static i18n l10n tz %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'assets/css/login.css' %}">	
+{% endblock styles %}
+
+{% block content %}
+
+<div class="container-fluid bg-image ">
+  <div class="row no-gutter">
+    <div class="d-none  col-md-4 col-lg-6 bg-image ">
+    </div>
+    <div class="col-md-8 col-lg-6 mx-auto bg-image">
+      <div class="login d-flex align-items-center py-5">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-9 col-lg-8 mx-auto">
+              <h3 class="login-heading mb-4 text-center">Welcome!</h3>
+              <p class="text-center">Please Sign-in to Continue</p>
+
+              <form method="POST">
+                {% csrf_token %}
+                <div class="form-label-group">
+                  {{ form.username.errors }}
+                  {# {{ form.username.label_tag }} #}
+                  <input type="email" id="inputEmail" class="form-control" placeholder="Email address" name="{{ form.username.name }}" required autofocus>
+                  <label for="inputEmail">Email address</label>
+                </div>
+
+                <div class="form-label-group">
+                  {{ form.password.errors }}
+                  {# {{ form.password.label_tag }} #}
+                  <input type="password" id="inputPassword" class="form-control" placeholder="Password"  name="{{ form.password.name }}" required>
+                  <label for="inputPassword">Password</label>
+                </div>
+
+                <div class="custom-control custom-checkbox mb-3">
+                  <input type="checkbox" class="custom-control-input" id="customCheck1">
+                  <input type="checkbox" value="remember-me">{% trans 'Remember me' %} 
+
+                  {# <label class="custom-control-label" for="customCheck1">Remember password</label> #}
+                </div>
+                <input type="hidden" name="next" value="{{ next }}" />
+
+                <button class="btn btn-lg btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit">{% trans 'Sign in' %}</button>
+
+                {% url 'admin_password_reset' as password_reset_url %}
+                
+                {% if password_reset_url %}
+                <div class="text-center">
+                    <a class="small" href="{{ password_reset_url }}">{% trans 'Forgotten your password or username?' %}</a>
+                </div>
+                {% endif %}
+              </form>
+
+              <a href="{% url 'home' %}" class="btn btn-link-primary">Request Early Access <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+   
+{% endblock content %}
+
+{% block scripts %}
+	
+{% endblock scripts %}
